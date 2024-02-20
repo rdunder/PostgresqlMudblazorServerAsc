@@ -1,0 +1,127 @@
+﻿@rendermode InteractiveServer
+
+
+@using System.ComponentModel.DataAnnotations
+@using System.Text
+@using System.Text.Encodings.Web
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.WebUtilities
+@using MudBlazorServerWebApp.Data
+@using Microsoft.AspNetCore.Authorization
+
+
+@inject UserManager<ApplicationUser> UserManager
+@inject ISnackbar Snackbar
+
+<MudSnackbarProvider />
+
+
+
+@* Manage Users *@
+<div>
+    <MudDataGrid    T="ApplicationUser" Items="@users"
+                    SortMode="SortMode.Multiple" QuickFilter="@_quickFilter"
+                    Hideable="true" RowClick="@RowClicked" Height="500px"
+                    RowContextMenuClick="RowRightClicked" FixedHeader="true">
+
+        <ToolBarContent>
+            <MudSpacer />
+            <MudTextField @bind-Value="searchString" Placeholder="Search" 
+                            Adornment="Adornment.Start" Immediate="true"
+                            AdornmentIcon="@Icons.Material.Filled.Search" 
+                            IconSize="Size.Medium" Class="mt-0">
+            </MudTextField>
+        </ToolBarContent>
+
+        <Columns>
+            <HierarchyColumn T="ApplicationUser" ButtonDisabledFunc="@(x => x.FirstName == "He")" />
+            <PropertyColumn Property="x => x.FirstName" />
+            <PropertyColumn Property="x => x.LastName" />
+        </Columns>
+
+        <ChildRowContent>
+            <MudCard>
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">@context.Item.FirstName @context.Item.LastName </MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText>E-mail:    <a href="mailto:@context.Item.Email">@context.Item.Email</a> </MudText>
+                    <MudText>Phone:     @context.Item.PhoneNumber</MudText>
+
+                    <MudButton Class="mt-5" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" 
+                        Color="Color.Error" OnClick="() => DeleteUserAsync(context.Item)">
+                        Delete
+                    </MudButton>
+                </MudCardContent>
+            </MudCard>            
+        </ChildRowContent>
+
+    </MudDataGrid>
+
+    
+
+</div>
+
+    @code {
+
+    // User management
+
+    //IEnumerable<ApplicationUser> users = new List<ApplicationUser>();
+    List<ApplicationUser> users = new();
+    string? searchString;
+
+    ApplicationUser clickedUser = new();
+    bool showClickedUserDetails = false;
+    int rowIndexClicked;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        users = UserManager.Users.ToList();
+    }
+
+    private Func<ApplicationUser, bool> _quickFilter => x =>
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+
+        if (x.Email.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if ($"{x.Email}".Contains(searchString))
+            return true;
+
+        return false;
+    };
+
+    async Task DeleteUserAsync(ApplicationUser user)
+    {
+        string userName = $"{user.FirstName} {user.LastName}";
+        string userEmail = user.Email;
+
+        Snackbar sb;        
+
+        var isUserDeleted = await UserManager.DeleteAsync(user);
+
+        if (isUserDeleted.Succeeded)
+        {
+            sb = Snackbar.Add($"User: {userName} is deleted", Severity.Normal);
+            users.RemoveAll(s => s.Email == userEmail);
+        }
+    }
+
+
+
+    void RowClicked(DataGridRowClickEventArgs<ApplicationUser> args)
+    {
+        
+    }
+
+    void RowRightClicked(DataGridRowClickEventArgs<ApplicationUser> args)
+    {
+    }
+
+}
+
