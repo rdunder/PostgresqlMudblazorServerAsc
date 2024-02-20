@@ -54,6 +54,15 @@
                         Color="Color.Error" OnClick="() => DeleteUserAsync(context.Item)">
                         Delete
                     </MudButton>
+
+                        @if(context.Item.IsAdmin)
+                        {
+                        <MudText>is admin</MudText>
+                        }
+                        else
+                        {
+                            <MudText>is NOT admin</MudText>
+                        }
                 </MudCardContent>
             </MudCard>            
         </ChildRowContent>
@@ -64,7 +73,7 @@
 
 </div>
 
-    @code {
+@code {
 
     // User management
 
@@ -76,10 +85,15 @@
     bool showClickedUserDetails = false;
     int rowIndexClicked;
 
-
     protected override async Task OnInitializedAsync()
     {
         users = UserManager.Users.ToList();
+
+        foreach (var user in users)
+        {
+            user.IsAdmin = await UserManager.IsInRoleAsync(user, "admin");
+        }
+        
     }
 
     private Func<ApplicationUser, bool> _quickFilter => x =>
@@ -111,7 +125,6 @@
             users.RemoveAll(s => s.Email == userEmail);
         }
     }
-
 
 
     void RowClicked(DataGridRowClickEventArgs<ApplicationUser> args)
