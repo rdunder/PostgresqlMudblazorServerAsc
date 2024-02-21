@@ -103,7 +103,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        users = UserManager.Users.ToList();        
+        users = UserManager.Users.ToList();    
     }
 
     private Func<ApplicationUser, bool> _quickFilter => x =>

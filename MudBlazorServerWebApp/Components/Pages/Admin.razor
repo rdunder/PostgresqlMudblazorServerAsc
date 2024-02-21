@@ -1,6 +1,8 @@
 ﻿
 @page "/admin"
 
+@rendermode InteractiveServer
+
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Identity
 @using MudBlazorServerWebApp.Data
@@ -15,61 +17,50 @@
 
 
 
-<AuthorizeView>
-	@if(context.User.Identity.Name == firstAdminUserName)
-	{
-		<h5>Welcome Chief</h5>
-		<p>@context.User.Identity.Name</p>
-		<hr />
-		<p>@successMessage</p>
-
-	}
-	else
-	{
-		<h5>You dont have permissions here</h5>
-		<p>@context.User.Identity.Name</p>
-	}
-</AuthorizeView>
-
 
 
 
 
 @code {
-	string administrationRole = "admin";
-	string firstAdminUserName = "r.dunder@gmail.com";
 
-	public string successMessage = "";
+	
+
+	#region Code block to be executed to vreate the first user in DB as Admin
+	// string administrationRole = "admin";
+	// string firstAdminUserName = "r.dunder@gmail.com";
+
+	// public string successMessage = "";
 
 
-	protected override async Task OnInitializedAsync()
-	{
-		Logger.LogInformation("Trying to find the admin role");
-		var roleResult = await RoleManager.FindByNameAsync(administrationRole);
+	// protected override async Task OnInitializedAsync()
+	// {
+	// 	Logger.LogInformation("Trying to find the admin role");
+	// 	var roleResult = await RoleManager.FindByNameAsync(administrationRole);
 
-		if (roleResult == null)
-		{
-			Logger.LogInformation("Admin role not present, so creating it");
-			await RoleManager.CreateAsync(new IdentityRole("admin"));
-		}
+	// 	if (roleResult == null)
+	// 	{
+	// 		Logger.LogInformation("Admin role not present, so creating it");
+	// 		await RoleManager.CreateAsync(new IdentityRole("admin"));
+	// 	}
 
-		Logger.LogInformation("Trying to find the user that are supposed to be first admin");
-		var user = await UserManager.FindByNameAsync(firstAdminUserName);
+	// 	Logger.LogInformation("Trying to find the user that are supposed to be first admin");
+	// 	var user = await UserManager.FindByNameAsync(firstAdminUserName);
 
-		if (user != null)
-		{
-			Logger.LogInformation("Checking if the user has the admin role");
+	// 	if (user != null)
+	// 	{
+	// 		Logger.LogInformation("Checking if the user has the admin role");
 
-			var userInRole = await UserManager.IsInRoleAsync(user, administrationRole);
-			if (!userInRole)
-			{
-				Logger.LogInformation("Adding the user to the admin role");
-				await UserManager.AddToRoleAsync(user, administrationRole);
-			}
-			else
-			{
-				successMessage = "You have the admin role";
-			}
-		}
-	}
+	// 		var userInRole = await UserManager.IsInRoleAsync(user, administrationRole);
+	// 		if (!userInRole)
+	// 		{
+	// 			Logger.LogInformation("Adding the user to the admin role");
+	// 			await UserManager.AddToRoleAsync(user, administrationRole);
+	// 		}
+	// 		else
+	// 		{
+	// 			successMessage = "You have the admin role";
+	// 		}
+	// 	}
+	// }
+	#endregion
 }

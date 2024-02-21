@@ -1,0 +1,53 @@
+﻿@page "/activities"
+
+@rendermode InteractiveServer
+
+
+@using MudBlazorServerWebApp.Data
+
+@inject PlannedActivitiesManager activityManager
+
+<h3>Activities</h3>
+
+
+<MudCard>
+	<MudForm Model="@model" OnValidSubmit="OnValidSubmitAsync">
+		<MudCardContent>
+			<MudDatePicker PickerVariant="PickerVariant.Dialog" @bind-Date="model.DateTime"  Label="Date" ReadOnly="false" />
+			<MudTextField T="string" Label="Multiline" Variant="Variant.Text" @bind-Value="model.Activity" Lines="3" />
+		</MudCardContent>
+		<MudCardActions>
+			<MudButton ButtonType="ButtonType.Submit" Variant="Variant.Text" Color="Color.Primary" StartIcon="@Icons.Material.Outlined.AddCircleOutline">
+				Add
+			</MudButton>
+		</MudCardActions>
+	</MudForm>
+</MudCard>
+
+
+
+
+@code {
+
+	InputModel model = new();
+	PlannedActivity activity = new();
+
+	DateTime? date = DateTime.Today;
+
+	void OnValidSubmit()
+	{
+		activity.DateTime = model.DateTime;
+		activity.Activity = model.Activity;
+
+		Console.WriteLine("added data to inputmodel");
+
+		activityManager.AddActivity(activity);
+	}
+
+	class InputModel
+	{
+		public int Id { get; set; }
+		public DateTime? DateTime { get; set; }
+		public string? Activity { get; set; }
+	}
+}
