@@ -25,17 +25,16 @@
 	</MudForm>
 </MudCard>
 
-<MudTable Items="activities">
+<MudTable Class="mt-10" Items="activities">
     <HeaderContent>
         <MudTh>Date</MudTh>
         <MudTh>Activity</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="Date">@context.DateTime</MudTd>
+		<MudTd DataLabel="Date">@context.DateTime.GetValueOrDefault().ToString("dd, MMMM")</MudTd>
         <MudTd DataLabel="Activity">@context.Activity</MudTd>
     </RowTemplate>
 </MudTable>
-
 
 
 
