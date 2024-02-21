@@ -21,7 +21,7 @@
 
 @* Register User *@
 <div class="row mt-8 mb-8">
-    <div class="col-md-4">
+    <div class="col-md-4 mb-15">
         <StatusMessage Message="@Message" />
         <EditForm Model="Input" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
             <DataAnnotationsValidator />

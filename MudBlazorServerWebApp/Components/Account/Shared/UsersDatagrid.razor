@@ -57,16 +57,18 @@
 
                    
                 </MudCardContent>
-                <MudCardActions Class="mt-5">
+                <MudCardActions Class="mt-5 justify-content-evenly">
                         <MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Outlined.Delete"
                                    Color="Color.Error" OnClick="() => DeleteUserAsync(context.Item)">
                             Delete user
                         </MudButton>
 
+                        <MudDivider Vertical="true" FlexItem="true" />
+
                         @if (context.Item.IsAdmin)
                         {
                             <MudButton  Variant="Variant.Text" StartIcon="@Icons.Material.Outlined.PersonOff"
-                                        Color="Color.Primary">
+                                   Color="Color.Primary" OnClick="() => ChangeAdminStatus(context.Item, context.Item.IsAdmin)">
                                 Remove Admin Role
                             </MudButton>
 
@@ -74,7 +76,7 @@
                         else
                         {
                             <MudButton  Variant="Variant.Text" StartIcon="@Icons.Material.Outlined.PersonOutline"
-                                        Color="Color.Primary">
+                                   Color="Color.Primary" OnClick="() => ChangeAdminStatus(context.Item, context.Item.IsAdmin)">
                                 Add Admin Role
                             </MudButton>
                         }
@@ -131,6 +133,37 @@
         {
             sb = Snackbar.Add($"User: {userName} is deleted", Severity.Normal);
             users.RemoveAll(s => s.Email == userEmail);
+        }
+    }
+
+    async Task ChangeAdminStatus(ApplicationUser user, bool isAdmin)
+    {
+        IdentityResult adminStatusChangeResult;
+        string userName = $"{user.FirstName} {user.LastName}";
+
+        Snackbar sb;
+
+        if (isAdmin)
+        {
+            adminStatusChangeResult = await UserManager.RemoveFromRoleAsync(user, "admin");
+            user.IsAdmin = false;
+            await UserManager.UpdateAsync(user);
+        }
+        else
+        {
+            adminStatusChangeResult = await UserManager.AddToRoleAsync(user, "admin");
+            user.IsAdmin = true;
+            await UserManager.UpdateAsync(user);
+        }
+
+
+        if (adminStatusChangeResult.Succeeded)
+        {
+            sb = Snackbar.Add($"Admin status of user {userName} was changed", Severity.Normal);
+        }
+        else
+        {
+            sb = Snackbar.Add("Admin status change did not work");
         }
     }
 
