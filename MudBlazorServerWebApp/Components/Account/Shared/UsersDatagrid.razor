@@ -44,26 +44,41 @@
                 <MudCardHeader>
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6">@context.Item.FirstName @context.Item.LastName </MudText>
+                            @if (context.Item.IsAdmin)
+                            {
+                                <MudText>Admin</MudText>
+                            }
                     </CardHeaderContent>
                 </MudCardHeader>
                 <MudCardContent>
                     <MudText>E-mail:    <a href="mailto:@context.Item.Email">@context.Item.Email</a> </MudText>
                     <MudText>Phone:     @context.Item.PhoneNumber</MudText>
 
-                    <MudButton Class="mt-5" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" 
-                        Color="Color.Error" OnClick="() => DeleteUserAsync(context.Item)">
-                        Delete
-                    </MudButton>
 
-                        @if(context.Item.IsAdmin)
+                   
+                </MudCardContent>
+                <MudCardActions Class="mt-5">
+                        <MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Outlined.Delete"
+                                   Color="Color.Error" OnClick="() => DeleteUserAsync(context.Item)">
+                            Delete user
+                        </MudButton>
+
+                        @if (context.Item.IsAdmin)
                         {
-                        <MudText>is admin</MudText>
+                            <MudButton  Variant="Variant.Text" StartIcon="@Icons.Material.Outlined.PersonOff"
+                                        Color="Color.Primary">
+                                Remove Admin Role
+                            </MudButton>
+
                         }
                         else
                         {
-                            <MudText>is NOT admin</MudText>
+                            <MudButton  Variant="Variant.Text" StartIcon="@Icons.Material.Outlined.PersonOutline"
+                                        Color="Color.Primary">
+                                Add Admin Role
+                            </MudButton>
                         }
-                </MudCardContent>
+                </MudCardActions>
             </MudCard>            
         </ChildRowContent>
 
@@ -77,7 +92,6 @@
 
     // User management
 
-    //IEnumerable<ApplicationUser> users = new List<ApplicationUser>();
     List<ApplicationUser> users = new();
     string? searchString;
 
@@ -87,13 +101,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        users = UserManager.Users.ToList();
-
-        foreach (var user in users)
-        {
-            user.IsAdmin = await UserManager.IsInRoleAsync(user, "admin");
-        }
-        
+        users = UserManager.Users.ToList();        
     }
 
     private Func<ApplicationUser, bool> _quickFilter => x =>
