@@ -13,6 +13,7 @@ public class PlannedActivitiesManager
 
     public void AddActivity(PlannedActivity activity)
     {
-        _context.PlannedActivities.Add(activity);
+        
+            _context.PlannedActivities.Add(activity);
     }
 }

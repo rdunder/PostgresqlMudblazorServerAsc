@@ -1,11 +1,8 @@
 ﻿@page "/activities"
 
 @rendermode InteractiveServer
-
-
 @using MudBlazorServerWebApp.Data
-
-@inject PlannedActivitiesManager activityManager
+@inject ApplicationDbContext context
 
 <h3>Activities</h3>
 
@@ -41,7 +38,7 @@
 
 		Console.WriteLine("added data to inputmodel");
 
-		activityManager.AddActivity(activity);
+		context.PlannedActivities.Add(activity);
 	}
 
 	class InputModel
