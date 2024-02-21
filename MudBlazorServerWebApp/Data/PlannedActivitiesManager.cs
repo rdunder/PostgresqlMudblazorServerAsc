@@ -14,6 +14,13 @@ public class PlannedActivitiesManager
     public void AddActivity(PlannedActivity activity)
     {
         
-            _context.PlannedActivities.Add(activity);
+        _context.PlannedActivities.Add(activity);
+        _context.SaveChanges();
+    }
+
+    public List<PlannedActivity> GetAllPlannedActivities()
+    {
+        var returnObject = _context.PlannedActivities.AsEnumerable();
+        return returnObject.ToList();
     }
 }
