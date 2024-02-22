@@ -10,8 +10,10 @@
 	<AuthorizeView>
 		<Authorized>
 			
-			<MudNavLink Href="Account/Manage" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">@context.User.Identity?.Name</MudNavLink>			
-						
+			<MudNavLink Href="upload/images" Match="NavLinkMatch.Prefix" Icon=@Icons.Material.Outlined.Image>Ladda upp Bilder</MudNavLink>
+			<MudNavLink Href="Account/Manage" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">@context.User.Identity?.Name</MudNavLink>
+
+
 			@if (context.User.IsInRole("admin"))
 			{
 				<MudText Typo="Typo.h6" Class="mt-8" >Admin</MudText>

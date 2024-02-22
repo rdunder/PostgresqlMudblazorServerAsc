@@ -1,0 +1,59 @@
+﻿@page "/upload/images"
+
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+@using MudBlazorServerWebApp.Data
+
+@attribute [Authorize]
+
+
+<MudDivider Class="mt-10 mb-10" />
+
+<MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFiles2" MaximumFileCount="5">
+    <ButtonTemplate>
+        <MudButton HtmlTag="label"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.CloudUpload"
+                   for="@context.Id">
+            Upload Images
+        </MudButton>
+    </ButtonTemplate>
+</MudFileUpload>
+
+@if (files != null)
+{
+    <MudList>
+        @foreach (var file in files)
+        {
+            <MudListItem Icon="@Icons.Material.Filled.AttachFile">
+                @file.Name <code>@file.Size bytes</code>
+                
+            </MudListItem>
+        }
+    </MudList>
+}
+
+
+@code {
+    List<IBrowserFile> files = new List<IBrowserFile>();
+
+    List<string> base64Strings = new();
+
+    private void UploadFiles2(IBrowserFile file)
+    {
+        files.Add(file);
+        //TODO upload the files to the server
+    }
+
+    void ConvertToB64(List<IBrowserFile> files)
+    {
+        foreach (var file in files)
+        {
+            // Need to open a stream to acually read the file, the file should be untrusted, as stated in the documentation
+            // byte[] imageBytes = File.ReadAllBytes(file);
+            // string b64String = Convert.ToBase64String(imageBytes);
+
+        }
+    }
+}
