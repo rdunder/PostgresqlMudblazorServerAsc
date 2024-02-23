@@ -34,11 +34,41 @@
     </MudList>
 }
 
+<MudButton 
+        Variant="Variant.Filled"
+        Color="Color.Primary" 
+        OnClick="() => ConvertToB64(files)">
+    convert
+</MudButton>
+
+@if (base64Strings != null)
+{
+    <MudList>
+        @foreach (var s in base64Strings)
+        {
+            <MudListItem>
+                @s
+            </MudListItem>
+        }
+    </MudList>
+}
+
+
+<MudButton Variant="Variant.Filled"
+           Color="Color.Primary"
+           OnClick="() => ShowImage(base64Strings[0])">
+    ShowImage
+</MudButton>
+
+<img src="@imageSource" alt="Image" />
+
 
 @code {
-    List<IBrowserFile> files = new List<IBrowserFile>();
-
+    List<IBrowserFile> files = new();
+    List<string> plainStrings = new();
     List<string> base64Strings = new();
+
+    string imageSource;
 
     private void UploadFiles2(IBrowserFile file)
     {
@@ -46,14 +76,24 @@
         //TODO upload the files to the server
     }
 
-    void ConvertToB64(List<IBrowserFile> files)
+    async Task ConvertToB64(List<IBrowserFile> files)
     {
         foreach (var file in files)
         {
-            // Need to open a stream to acually read the file, the file should be untrusted, as stated in the documentation
-            // byte[] imageBytes = File.ReadAllBytes(file);
-            // string b64String = Convert.ToBase64String(imageBytes);
+            await using (var ms = new MemoryStream())
+            {
+                await file.OpenReadStream().CopyToAsync(ms);
+                var imageBytes = ms.ToArray();
 
+                string b64String = Convert.ToBase64String(imageBytes);
+                base64Strings.Add(b64String);
+            }            
         }
+    }
+
+    void ShowImage(string base64String)
+    {
+        byte[] imgBytes = Convert.FromBase64String(base64String);
+
     }
 }
