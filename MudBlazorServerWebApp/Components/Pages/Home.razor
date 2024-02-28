@@ -1,38 +1,24 @@
 ﻿@page "/"
 
+@rendermode InteractiveServer
+
+@using MudBlazorServerWebApp.Components.Pages.Shared
+
 <PageTitle>Home</PageTitle>
 
+<MudPaper Class="d-flex flex-column align-items-center flex-grow-1" Elevation="0">
 
+	<MudText Class="mt-5" Typo="Typo.h6" GutterBottom="true" >HEADLINE GOES HERE!</MudText>
 
-<MudText Typo="Typo.h6" GutterBottom="true">Trollhättans Fotoklubb - För oss med bilden i fokus!</MudText>
+	<MudPaper Class="mt-5 p-4" Elevation="10" MaxWidth="75%">
+		<AboutComponent />
+	</MudPaper>
 
-<MudText Class="mb-2">
-    Hos oss är intresset för fotografi och bild gemensamt. <br /> 
-    Djur och natur, sport, porträtt, gatufoto, arkitektur, resor, dokumentärt, analogt eller digitalt spelar mindre roll.<br />
-    Variationen gör det bara bättre och roligare. <br />
-</MudText>
+	<MudPaper Class="mt-5 p-4" Elevation="10" MaxWidth="75%">
+		<ContactComponent />
+	</MudPaper>
 
-<MudText Class="mb-4">
-    Det personliga mötet, tillgången till lokal och utrustning, samt möjligheten att delta i de aktiviteter klubben ordnar tycker vi är värdefullt.
-    Planerade aktiviteter har vi på tisdagskvällar. Nivån på det egna engagemanget styr man själv och i mån av tid.
-</MudText>
-
-<MudText Typo="Typo.button">
-    Det är ju trots allt en hobby!
-</MudText>
-
-<MudPaper Class="mt-8 mb-8" MaxWidth="350px" >
-    <MudText Typo="Typo.h6" Align="Align.Center" Class="mb-4">
-        Vanliga aktiviteter
-    </MudText>
-
-    <MudList Dense="true">
-        <MudListItem Text="Fotoutflykter" />
-        <MudListItem Text="Studio Fotografering" />
-        <MudListItem Text="Utställningar" />
-        <MudListItem Text="Tävlingar" />
-        <MudListItem Text="Redigering samt Utskrift" />
-    </MudList>
 </MudPaper>
+
 
 

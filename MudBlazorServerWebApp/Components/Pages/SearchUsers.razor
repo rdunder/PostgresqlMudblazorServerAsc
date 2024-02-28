@@ -1,0 +1,13 @@
+﻿@page "/search/users"
+@using MudBlazorServerWebApp.Components.Account.Shared
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+<h3>SearchUsers</h3>
+
+<UsersDatagrid />
+
+@code {
+
+}

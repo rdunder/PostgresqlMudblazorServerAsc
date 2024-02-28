@@ -3,68 +3,22 @@
 @rendermode InteractiveServer
 
 @using MudBlazorServerWebApp.Data
+@using MudBlazorServerWebApp.Components.Pages.Shared
 @using System
 
 @inject PlannedActivitiesManager ActivityManager
 @inject NavigationManager NavigationManager
 
-<h3>Activities</h3>
+<MudText Typo="Typo.h6">
+	Some general information about activities...
+</MudText>
 
 
 <MudCard>
-	<MudForm Model="@model" OnValidSubmit="OnValidSubmit">
-		<MudCardContent>
-			<MudDatePicker PickerVariant="PickerVariant.Dialog" @bind-Date="model.DateTime"  Label="Date" ReadOnly="false" />
-			<MudTextField T="string" Label="Multiline" Variant="Variant.Text" @bind-Value="model.Activity" Lines="3" />
-		</MudCardContent>
-		<MudCardActions>
-			<MudButton OnClick="() => OnValidSubmit()" Variant="Variant.Text" Color="Color.Primary" StartIcon="@Icons.Material.Outlined.AddCircleOutline">
-				Add
-			</MudButton>
-		</MudCardActions>
-	</MudForm>
+	<ActivitiesComponent />
 </MudCard>
 
-<MudTable Class="mt-10" Items="activities">
-    <HeaderContent>
-        <MudTh>Date</MudTh>
-        <MudTh>Activity</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-		<MudTd DataLabel="Date">@context.DateTime.GetValueOrDefault().ToString("dd, MMMM")</MudTd>
-        <MudTd DataLabel="Activity">@context.Activity</MudTd>
-    </RowTemplate>
-</MudTable>
 
 
-
-
-@code {
-
-	InputModel model = new();
-	PlannedActivity activity = new();
-
-	List<PlannedActivity> activities = new();
-
-	protected override async Task OnInitializedAsync()
-	{
-		activities = ActivityManager.GetAllPlannedActivities();
-	}
-
-	void OnValidSubmit()
-	{
-		activity.DateTime = model.DateTime;
-		activity.Activity = model.Activity;
-
-		ActivityManager.AddActivity(activity);
-
-		NavigationManager.NavigateTo("activities", true);
-	}
-
-	class InputModel
-	{
-		public int Id { get; set; }
-		public DateTime? DateTime { get; set; }
-		public string? Activity { get; set; }
-	}
+@code {	
 }

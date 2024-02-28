@@ -3,7 +3,7 @@
 </CascadingValue>
 
 @code {
-    public bool isDarkMode = true;
+    public bool isDarkMode = false;
 
     public static MudTheme MyTheme => new()
         {
@@ -12,7 +12,8 @@
             {
                 Primary = Colors.Blue.Darken2,
                 Secondary = Colors.Green.Accent4,
-                AppbarBackground = Colors.Red.Default,
+                //AppbarBackground = Colors.Red.Default,
+                AppbarBackground = Colors.Indigo.Accent1,
             },
 
             PaletteDark = new PaletteDark()

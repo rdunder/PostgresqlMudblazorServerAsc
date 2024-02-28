@@ -21,6 +21,7 @@ public class PlannedActivitiesManager
     public List<PlannedActivity> GetAllPlannedActivities()
     {
         var returnObject = _context.PlannedActivities.AsEnumerable();
+        
         return returnObject.ToList();
     }
 }

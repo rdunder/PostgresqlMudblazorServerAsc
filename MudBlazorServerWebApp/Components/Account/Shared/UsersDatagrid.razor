@@ -53,38 +53,46 @@
                 <MudCardContent>
                     <MudText>E-mail:    <a href="mailto:@context.Item.Email">@context.Item.Email</a> </MudText>
                     <MudText>Phone:     @context.Item.PhoneNumber</MudText>
-
-
                    
                 </MudCardContent>
-                <MudCardActions Class="mt-5 justify-content-evenly">
-                        <MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Outlined.Delete"
-                                   Color="Color.Error" OnClick="() => DeleteUserAsync(context.Item)">
-                            Delete user
-                        </MudButton>
+                
+                    <MudCardActions Class="mt-5 justify-content-evenly">
 
-                        <MudDivider Vertical="true" FlexItem="true" />
+                        <AuthorizeView Context="authContext" Roles="admin">
 
-                        @if (context.Item.IsAdmin)
-                        {
-                            <MudButton  Variant="Variant.Text" StartIcon="@Icons.Material.Outlined.PersonOff"
-                                   Color="Color.Primary" OnClick="() => ChangeAdminStatus(context.Item, context.Item.IsAdmin)">
-                                Remove Admin Role
+                            <MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Outlined.Delete"
+                                       Color="Color.Error" OnClick="() => DeleteUserAsync(context.Item)">
+                                Delete user
                             </MudButton>
 
-                        }
-                        else
-                        {
-                            <MudButton  Variant="Variant.Text" StartIcon="@Icons.Material.Outlined.PersonOutline"
-                                   Color="Color.Primary" OnClick="() => ChangeAdminStatus(context.Item, context.Item.IsAdmin)">
-                                Add Admin Role
-                            </MudButton>
-                        }
-                </MudCardActions>
+                            <MudDivider Vertical="true" FlexItem="true" />
+
+                            @if (context.Item.IsAdmin)
+                            {
+                                <MudButton  Variant="Variant.Text" StartIcon="@Icons.Material.Outlined.PersonOff"
+                                       Color="Color.Primary" OnClick="() => ChangeAdminStatus(context.Item, context.Item.IsAdmin)">
+                                    Remove Admin Role
+                                </MudButton>
+
+                            }
+                            else
+                            {
+                                <MudButton  Variant="Variant.Text" StartIcon="@Icons.Material.Outlined.PersonOutline"
+                                       Color="Color.Primary" OnClick="() => ChangeAdminStatus(context.Item, context.Item.IsAdmin)">
+                                    Add Admin Role
+                                </MudButton>
+                            }
+
+                        </AuthorizeView>
+
+                    </MudCardActions>
+                
             </MudCard>            
         </ChildRowContent>
 
     </MudDataGrid>
+
+   
 
     
 
