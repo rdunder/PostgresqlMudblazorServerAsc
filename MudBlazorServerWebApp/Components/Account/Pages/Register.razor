@@ -198,6 +198,33 @@
         return (IUserEmailStore<ApplicationUser>)UserStore;
     }
 
+    private string GenerateRandomPassword(PasswordOptions options = null)
+    {
+        if (options == null)
+        {
+            options = new PasswordOptions()
+            {
+                RequiredLength = 10,
+                RequiredUniqueChars = 4,
+                RequireDigit = true,
+                RequireLowercase = true,
+                RequireNonAlphanumeric = true,
+                RequireUppercase = true
+            };
+        }
+
+        string[] randomCharacters = new string[]
+        {
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            "abcdefghijklmnopqrstuvwxyz",
+            "0123456789",
+            ""
+        };
+
+
+        return "";
+    }
+
     private sealed class InputModel
     {
         [Required]
