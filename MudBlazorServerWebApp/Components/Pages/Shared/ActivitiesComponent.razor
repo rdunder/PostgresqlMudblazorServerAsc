@@ -3,7 +3,7 @@
 
 @inject PlannedActivitiesManager ActivityManager
 
-<MudTable Class="mt-10" Items="activities">
+@* <MudTable Class="mt-10" Items="activities">
     <HeaderContent>
         <MudTh>Date</MudTh>
         <MudTh>Activity</MudTh>
@@ -12,10 +12,23 @@
         <MudTd DataLabel="Date">@context.DateTime.GetValueOrDefault().ToString("dd, MMMM")</MudTd>
         <MudTd DataLabel="Activity">@context.Activity</MudTd>
     </RowTemplate>
-</MudTable>
+</MudTable> *@
+
+<MudDataGrid Items="@activities" >
+    <Columns>
+        <PropertyColumn Property='x => x.DateTime.GetValueOrDefault().ToString("MMMM, dd")' Title="Date" SortBy="@_sortBy" />
+        <PropertyColumn Property="x => x.Activity" />
+    </Columns>
+</MudDataGrid>
 
 @code {
-	List<PlannedActivity> activities = new();
+    List<PlannedActivity> activities = new();
+
+    private Func<PlannedActivity, object> _sortBy => s =>
+    {
+        return s.DateTime.GetValueOrDefault();
+    };
+
 	protected override void OnInitialized()
 	{
 		activities = ActivityManager.GetAllPlannedActivities();
