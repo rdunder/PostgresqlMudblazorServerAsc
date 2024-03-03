@@ -60,27 +60,32 @@
 
                         <AuthorizeView Context="authContext" Roles="admin">
 
-                            <MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Outlined.Delete"
-                                       Color="Color.Error" OnClick="() => DeleteUserAsync(context.Item)">
-                                Delete user
-                            </MudButton>
-
-                            <MudDivider Vertical="true" FlexItem="true" />
-
-                            @if (context.Item.IsAdmin)
+                            @if (context.Item.Email != "r.dunder@gmail.com" && context.Item.UserName != authContext.User.Identity?.Name)
                             {
-                                <MudButton  Variant="Variant.Text" StartIcon="@Icons.Material.Outlined.PersonOff"
-                                       Color="Color.Primary" OnClick="() => ChangeAdminStatus(context.Item, context.Item.IsAdmin)">
-                                    Remove Admin Role
+                                <MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Outlined.Delete"
+                                           Color="Color.Error" OnClick="() => DeleteUserAsync(context.Item)">
+                                    Delete user
                                 </MudButton>
 
-                            }
-                            else
-                            {
-                                <MudButton  Variant="Variant.Text" StartIcon="@Icons.Material.Outlined.PersonOutline"
-                                       Color="Color.Primary" OnClick="() => ChangeAdminStatus(context.Item, context.Item.IsAdmin)">
-                                    Add Admin Role
-                                </MudButton>
+                                <MudDivider Vertical="true" FlexItem="true" />
+
+                           
+                                @if (context.Item.IsAdmin)
+                                {
+                                    <MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Outlined.PersonOff"
+                                                Color="Color.Primary" OnClick="() => ChangeAdminStatus(context.Item, context.Item.IsAdmin)">
+                                        Remove Admin Role
+                                    </MudButton>
+
+                                }
+                                else
+                                {
+                                    <MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Outlined.PersonOutline"
+                                                Color="Color.Primary" OnClick="() => ChangeAdminStatus(context.Item, context.Item.IsAdmin)">
+                                        Add Admin Role
+                                    </MudButton>
+                                }
+
                             }
 
                         </AuthorizeView>

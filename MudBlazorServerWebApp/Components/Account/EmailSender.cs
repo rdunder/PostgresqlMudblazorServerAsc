@@ -23,9 +23,11 @@ public class EmailSender(ILogger<EmailSender> logger, IConfiguration configurati
         string confirmationLink) => SendEmailAsync(email, "Confirm your email",
         $"Please confirm your account by clicking the link below\n{confirmationLink}");
 
+    //  This is somewhat missleading because it is used when a user is registered by an Admin
+    //  The admin cant choose a password, that is generated automaticly and the user gets to reset / choose a password by clicking the link.
     public Task SendPasswordResetLinkAsync(ApplicationUser user, string email,
         string resetLink) => SendEmailAsync(email, "No Reply",
-        $"Välkommen som medlem i Trollhättans Fotoklubb.\nKlicka på länken nedan för att välja lösenord\n\n{resetLink}");
+        $"Welcome as a registered user, click the link to choose a password\n\n{resetLink}");
 
     public Task SendPasswordResetCodeAsync(ApplicationUser user, string email,
         string resetCode) => SendEmailAsync(email, "Reset your password",

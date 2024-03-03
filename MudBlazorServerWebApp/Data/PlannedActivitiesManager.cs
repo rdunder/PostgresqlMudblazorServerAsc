@@ -18,6 +18,12 @@ public class PlannedActivitiesManager
         _context.SaveChanges();
     }
 
+    public void DeletActivity(PlannedActivity activity)
+    {
+        _context.PlannedActivities.Remove(activity);
+        _context.SaveChanges();
+    }
+
     public List<PlannedActivity> GetAllPlannedActivities()
     {
         var returnObject = _context.PlannedActivities.AsEnumerable();

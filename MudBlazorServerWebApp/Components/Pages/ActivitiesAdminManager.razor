@@ -1,4 +1,4 @@
-﻿@page "/admin/activities"
+﻿@page "/manage/activities"
 
 @rendermode InteractiveServer
 
@@ -11,28 +11,56 @@
 
 <h3>Add Activities</h3>
 
+<MudGrid>
 
-<MudCard>
-	<MudForm Model="@model" OnValidSubmit="OnValidSubmit">
-		<MudCardContent>
-			<MudDatePicker PickerVariant="PickerVariant.Dialog" @bind-Date="model.DateTime" Label="Date" ReadOnly="false" />
-			<MudTextField T="string" Label="Multiline" Variant="Variant.Text" @bind-Value="model.Activity" Lines="3" />
-		</MudCardContent>
-		<MudCardActions>
-			<MudButton OnClick="() => OnValidSubmit()" Variant="Variant.Text" Color="Color.Primary" StartIcon="@Icons.Material.Outlined.AddCircleOutline">
-				Add
-			</MudButton>
-		</MudCardActions>
-	</MudForm>
-</MudCard>
+	<MudItem xs="12" Class="d-flex mud-width-full py-8 justify-content-center">
+		<MudText Typo="Typo.h6">Manage Activities</MudText>
+	</MudItem>
 
-<ActivitiesComponent />
+	<MudItem xs="6">
+		<MudCard Class="mt-5">
+			<MudForm Model="@model" OnValidSubmit="OnValidSubmit">
+				<MudCardContent>
+					<MudDatePicker PickerVariant="PickerVariant.Dialog" @bind-Date="model.DateTime" Label="Date" ReadOnly="false" />
+					<MudTextField T="string" Label="Multiline" Variant="Variant.Text" @bind-Value="model.Activity" Lines="3" />
+				</MudCardContent>
+				<MudCardActions>
+					<MudButton OnClick="() => OnValidSubmit()" Variant="Variant.Text" Color="Color.Primary" StartIcon="@Icons.Material.Outlined.AddCircleOutline">
+						Add
+					</MudButton>
+				</MudCardActions>
+			</MudForm>
+		</MudCard>
+	</MudItem>
 
+	<MudItem xs="6"></MudItem>
+
+	<MudItem xs="12">
+		<MudDataGrid T="PlannedActivity" Items="@activities" Height="500px">
+			<Columns>
+				<PropertyColumn Property='x => x.DateTime.GetValueOrDefault().ToString("MMMM, dd")' Title="Date" SortBy="@_sortBy" />
+				<PropertyColumn Property="x => x.Activity" />
+				<TemplateColumn CellClass="d-flex justify-end">
+					<CellTemplate>
+						<MudIconButton OnClick="() => DeleteActivity(context.Item)" Icon="@Icons.Material.Outlined.Delete" Color="Color.Error"></MudIconButton>
+					</CellTemplate>
+				</TemplateColumn>
+			</Columns>
+		</MudDataGrid>
+	</MudItem>
+
+</MudGrid>
 
 @code {
-
+	PlannedActivity? selectedItem;
+	List<PlannedActivity> activities = new();
 	InputModel model = new();
 	PlannedActivity activity = new();
+
+	protected override void OnInitialized()
+	{
+		activities = ActivityManager.GetAllPlannedActivities();
+	}
 
 	void OnValidSubmit()
 	{
@@ -41,8 +69,21 @@
 
 		ActivityManager.AddActivity(activity);
 
-		NavigationManager.NavigateTo("activities", true);
+		NavigationManager.NavigateTo("manage/activities", true);
 	}
+
+	void DeleteActivity(PlannedActivity activity)
+	{
+		ActivityManager.DeletActivity(activity);
+		NavigationManager.NavigateTo("manage/activities", true);
+	}
+
+
+	private Func<PlannedActivity, object> _sortBy => s =>
+	{
+		return s.DateTime.GetValueOrDefault();
+	};
+
 
 	class InputModel
 	{
