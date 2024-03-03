@@ -9,6 +9,8 @@
 
 <MudDivider Class="mt-10 mb-10" />
 
+<h6>Pick a file to uload</h6>
+
 <MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFiles2" MaximumFileCount="5">
     <ButtonTemplate>
         <MudButton HtmlTag="label"
@@ -34,6 +36,7 @@
     </MudList>
 }
 
+<h6> Convert the image to base64</h6>
 <MudButton 
         Variant="Variant.Filled"
         Color="Color.Primary" 
