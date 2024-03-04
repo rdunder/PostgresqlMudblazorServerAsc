@@ -5,9 +5,12 @@
 @using MudBlazorServerWebApp.Data
 @using MudBlazorServerWebApp.Components.Pages.Shared
 @using System
+@using Microsoft.AspNetCore.Authorization
 
 @inject PlannedActivitiesManager ActivityManager
 @inject NavigationManager NavigationManager
+
+@attribute [Authorize(Roles = "admin")]
 
 <h3>Add Activities</h3>
 
