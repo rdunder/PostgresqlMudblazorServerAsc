@@ -1,6 +1,8 @@
 ﻿@using MudBlazorServerWebApp.Data
 @using System
 
+@rendermode InteractiveServer
+
 @inject PlannedActivitiesManager ActivityManager
 
 
@@ -19,8 +21,10 @@
         return s.DateTime.GetValueOrDefault();
     };
 
-	protected override void OnInitialized()
-	{
-		activities = ActivityManager.GetAllPlannedActivities();
-	}
+    protected override async Task OnInitializedAsync()
+    {
+        activities = ActivityManager.GetAllPlannedActivities();
+
+        await Task.Delay(500);
+    }
 }
