@@ -11,7 +11,6 @@
 			<MudText Typo="Typo.h6" Class="mt-8">´Member Aria</MudText>
 			<MudDivider />
 			
-			<MudNavLink Href="upload/images" Match="NavLinkMatch.Prefix" Icon=@Icons.Material.Outlined.Image>Upload Images</MudNavLink>
 			<MudNavLink Href="search/users" Match="NavLinkMatch.Prefix" Icon=@Icons.Material.Outlined.Image>Search Users</MudNavLink>
 			<MudNavLink Href="Account/Manage" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">@context.User.Identity?.Name</MudNavLink>
 
@@ -21,8 +20,7 @@
 				<MudText Typo="Typo.h6" Class="mt-8" >Admin</MudText>
 				<MudDivider />
 
-				<MudNavLink Href="/admin" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AdminPanelSettings">Admin</MudNavLink>
-				<MudNavLink Href="/Account/Users" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.SettingsAccessibility">Users</MudNavLink>
+				<MudNavLink Href="/Account/Users" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.SettingsAccessibility">Manage Users</MudNavLink>
 				<MudNavLink Href="/manage/activities" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.SettingsAccessibility">Manage Activities</MudNavLink>
 
 			}
