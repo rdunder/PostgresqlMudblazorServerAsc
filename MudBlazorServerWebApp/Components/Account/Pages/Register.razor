@@ -18,7 +18,7 @@
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
 
-@* @attribute [Authorize(Roles ="admin")] *@
+@attribute [Authorize(Roles ="admin")]
 
 @* Register User *@
 <div class="row mt-8 mb-8">
@@ -104,7 +104,6 @@
     public async Task RegisterUser(EditContext editContext)
     {
         password = GenerateRandomPassword();
-
         var user = CreateUser();
 
         user.FirstName = Input.FirstName;

@@ -47,7 +47,7 @@ public class EmailSender(ILogger<EmailSender> logger, IConfiguration configurati
         string? emailAuthPassword = conf.GetValue<string>("EmailAuth:Password");
         var msg = new MimeMessage();
 
-        msg.From.Add(new MailboxAddress("No Reply", "info@voine.se"));
+        msg.From.Add(new MailboxAddress("info@hajt.se", "info@hajt.se"));
         msg.To.Add(new MailboxAddress(toEmail, toEmail));
         msg.Subject = subject;
 
@@ -55,7 +55,7 @@ public class EmailSender(ILogger<EmailSender> logger, IConfiguration configurati
 
         using (var client = new SmtpClient())
         {
-            client.Connect(emailAuthServer, 8889, false);
+            client.Connect(emailAuthServer, 587, false);
             client.Authenticate(emailAuthLogin, emailAuthPassword);
             
             
