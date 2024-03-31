@@ -3,7 +3,8 @@
 ### The requirements for this project
 * Simple and clean design
 * Login function for members
-* Admin is be the one who register users
+* Admin is the the one who register users
+* There can be more than one admin
 * Members has to be able to remove or change their account
 * Schedule for activities, that anyone who is admin can add to or edit
 
