@@ -65,7 +65,15 @@
 
 	void OnValidSubmit()
 	{
-		activity.DateTime = model.DateTime;
+		if (model.DateTime.HasValue)
+		{
+			activity.DateTime = model.DateTime.Value.ToUniversalTime();
+		}
+		else
+		{
+			activity.DateTime = DateTime.UtcNow;
+		}
+				
 		activity.Activity = model.Activity;
 
 		ActivityManager.AddActivity(activity);
@@ -91,5 +99,6 @@
 		public int Id { get; set; }
 		public DateTime? DateTime { get; set; }
 		public string? Activity { get; set; }
+
 	}
 }
